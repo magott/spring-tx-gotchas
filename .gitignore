@@ -3,3 +3,5 @@ target/
 .settings
 .project
 .settings/
+
+.svn/ #For now, until svn export is finalized
