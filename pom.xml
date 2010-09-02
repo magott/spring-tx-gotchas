@@ -16,7 +16,7 @@
 	</description>
 	<properties>
 		<maven.test.failure.ignore>false</maven.test.failure.ignore>
-		<spring.framework.version>3.0.0.RELEASE</spring.framework.version>
+		<spring.framework.version>3.0.4.RELEASE</spring.framework.version>
 	</properties>
 	<profiles>
 		<profile>
