@@ -41,7 +41,8 @@ public class TransactionalTest {
 	public void personIsInserted(){
 		assertThat(datasource).isNotNull().as("DataSource not set");		
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(datasource);
-		insert.withTableName("person").execute(params);		
+		int updated = insert.withTableName("person").execute(params);	
+		assertThat(updated).isEqualTo(1);
 	}
 	
 	
