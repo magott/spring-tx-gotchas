@@ -50,7 +50,7 @@ public class TransactionalTest {
 	public void checkInsertIsCommitted(){
 		SimpleJdbcTemplate template = new SimpleJdbcTemplate(datasource);
 		int tableCount=template.queryForInt("SELECT COUNT(*) FROM person");
-		assertThat(tableCount).isEqualTo(1).as("Insert was not committed");
+		assertThat(tableCount).as("Insert was not committed").isEqualTo(1);
 	}
 	
 	
