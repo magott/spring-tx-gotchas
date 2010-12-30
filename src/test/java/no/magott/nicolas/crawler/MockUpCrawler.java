@@ -66,7 +66,6 @@ public class MockUpCrawler {
 
 	public void crawl() throws InterruptedException, ExecutionException {
 		ConfigurableApplicationContext context = null;
-		// /magott-jz-txgotchas/src/test/java/no/magott/nicolas/crawler/crawler-context.xml
 		context = new ClassPathXmlApplicationContext("crawler-context.xml");
 		context.getAutowireCapableBeanFactory().autowireBeanProperties(this,
 				AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, false);
