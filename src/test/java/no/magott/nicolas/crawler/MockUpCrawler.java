@@ -41,6 +41,7 @@ public class MockUpCrawler {
 			} catch (TimeoutException e) {
 				System.err.println("Crawling of "+urls.get(count) +" timed out");
 			}
+			count++;
 		}
 
 	}
