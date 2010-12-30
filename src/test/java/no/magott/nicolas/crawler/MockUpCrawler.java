@@ -40,6 +40,7 @@ public class MockUpCrawler {
 				System.out.println("Crawling of "+ urls.get(count)+ " finished with status " +status);
 			} catch (TimeoutException e) {
 				System.err.println("Crawling of "+urls.get(count) +" timed out");
+				futureTask.cancel(true);
 			}
 			count++;
 		}
