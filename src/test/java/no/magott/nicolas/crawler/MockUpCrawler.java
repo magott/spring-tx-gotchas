@@ -1,9 +1,13 @@
 package no.magott.nicolas.crawler;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -19,10 +23,24 @@ public class MockUpCrawler {
 	private List<String> urls = Arrays.asList("http://www.mysite.com",
 			"http://www.yoursite.com");
 
-	
-	public void doCrawl() {
+	public void doCrawl() throws InterruptedException, ExecutionException {
+		List<FutureTask<Boolean>> tasks = new ArrayList<FutureTask<Boolean>>();
+
+		// Runs crawling tasks
 		for (String url : urls) {
-			doCrawl(url);
+			tasks.add(doCrawl(url));
+		}
+
+		// Checks status of crawling
+		int count = 0;
+		for (FutureTask<Boolean> futureTask : tasks) {
+			
+			try {
+				Boolean status = futureTask.get(1, TimeUnit.SECONDS);
+				System.out.println("Crawling of "+ urls.get(count)+ " finished with status " +status);
+			} catch (TimeoutException e) {
+				System.err.println("Crawling of "+urls.get(count) +" timed out");
+			}
 		}
 
 	}
@@ -45,20 +63,20 @@ public class MockUpCrawler {
 				});
 		return task;
 	}
-	
-	public void crawl(){
+
+	public void crawl() throws InterruptedException, ExecutionException {
 		ConfigurableApplicationContext context = null;
-//		/magott-jz-txgotchas/src/test/java/no/magott/nicolas/crawler/crawler-context.xml
-		context = new ClassPathXmlApplicationContext(
-				"crawler-context.xml");
+		// /magott-jz-txgotchas/src/test/java/no/magott/nicolas/crawler/crawler-context.xml
+		context = new ClassPathXmlApplicationContext("crawler-context.xml");
 		context.getAutowireCapableBeanFactory().autowireBeanProperties(this,
 				AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, false);
-		
+
 		doCrawl();
 		context.close();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException,
+			ExecutionException {
 		MockUpCrawler crawler = new MockUpCrawler();
 		crawler.crawl();
 	}
