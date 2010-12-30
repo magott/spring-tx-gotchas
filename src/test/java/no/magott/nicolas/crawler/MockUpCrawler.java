@@ -37,6 +37,7 @@ public class MockUpCrawler {
 			
 			try {
 				//This code is executed by the "main thread", which means the timeout is determined by the client thread, not by each task
+				//In other words, each task will have a timeout of (1 second * count+1)
 				Boolean status = futureTask.get(1, TimeUnit.SECONDS);
 				System.out.println("Crawling of "+ urls.get(count)+ " finished with status " +status);
 			} catch (TimeoutException e) {
